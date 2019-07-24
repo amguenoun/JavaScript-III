@@ -63,6 +63,7 @@ function Humanoid(att) {
   this.language = att.language;
 }
 
+
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 Humanoid.prototype.greet = function () {
   return `${this.name} offers a greeting in ${this.language}`;
