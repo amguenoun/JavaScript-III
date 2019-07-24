@@ -68,6 +68,36 @@ Humanoid.prototype.greet = function () {
   return `${this.name} offers a greeting in ${this.language}`;
 };
 
+function Villian(att) {
+  Humanoid.call(this, att);
+}
+
+Villian.prototype = Object.create(Humanoid.prototype);
+Villian.prototype.backstab = function (enemy) {
+  enemy.healthPoints -= 5;
+  if (enemy.healthPoints > 0) {
+    return `${this.name} wickedly backstabs ${enemy.name} for 5 dmg`;
+  }
+  else {
+    return enemy.destroy();
+  }
+}
+
+function Hero(att) {
+  Humanoid.call(this, att);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.slash = function (enemy) {
+  enemy.healthPoints -= 7;
+  if (enemy.healthPoints > 0) {
+    return `${this.name} heroically slashes ${enemy.name} for 7 dmg`;
+  }
+  else {
+    return enemy.destroy();
+  }
+}
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -127,6 +157,40 @@ const archer = new Humanoid({
   language: 'Elvish',
 });
 
+const thief = new Villian({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 2,
+  },
+  healthPoints: 10,
+  name: 'Leo',
+  team: 'The Black Hand',
+  weapons: [
+    'Dagger',
+    'Crossbow',
+  ],
+  language: 'Common Tongue',
+});
+
+const hero = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 2,
+    width: 2,
+    height: 2,
+  },
+  healthPoints: 20,
+  name: 'Clark',
+  team: 'The White Hand',
+  weapons: [
+    'Sword',
+    'Shield',
+  ],
+  language: 'Common Tongue',
+});
+
 console.log(mage.createdAt); // Today's date
 console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
 console.log(swordsman.healthPoints); // 15
@@ -137,6 +201,11 @@ console.log(archer.language); // Elvish
 console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+console.log(thief.backstab(archer));//Leo wickedly backstabs Lilith for 5 dmg 
+console.log(thief.backstab(archer));//Lilith was removed from the game
+console.log(hero.slash(thief));//Clark heroically slashes Leo for 7 dmg
+console.log(thief.backstab(hero));//Leo wickedly backstabs Clark for 5 dmg 
+console.log(hero.slash(thief));//Leo was removed from the game
 // */
 
   // Stretch task: 
